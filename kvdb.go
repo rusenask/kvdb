@@ -72,6 +72,19 @@ const (
 	InsecureSkipVerify = "InsecureSkipVerify"
 	// TransportScheme points to http transport being either http or https.
 	TransportScheme = "TransportScheme"
+
+	// MaxCallSendMsgSize is the client-side request send limit in bytes.
+	// If 0, it defaults to 2.0 MiB (2 * 1024 * 1024).
+	// Make sure that "MaxCallSendMsgSize" < server-side default send/recv limit.
+	// ("--max-request-bytes" flag to etcd or "embed.Config.MaxRequestBytes").
+	MaxCallSendMsgSize = "MaxCallSendMsgSize"
+
+	// MaxCallRecvMsgSize is the client-side response receive limit.
+	// If 0, it defaults to "math.MaxInt32", because range response can
+	// easily exceed request send limits.
+	// Make sure that "MaxCallRecvMsgSize" >= server-side default send/recv limit.
+	// ("--max-request-bytes" flag to etcd or "embed.Config.MaxRequestBytes").
+	MaxCallRecvMsgSize ="MaxCallRecvMsgSize"
 )
 
 // List of kvdb endpoints supported versions
