@@ -131,6 +131,24 @@ func New(
 		return nil, err
 	}
 
+	var maxCallSendMsgSize int
+	var maxCallRecvMsgSize int
+
+	mSendSize, ok := options[kvdb.MaxCallSendMsgSize]
+	if ok {
+		maxCallSendMsgSize, err = strconv.Atoi(mSendSize)
+		if err != nil {
+			maxCallSendMsgSize = 0
+		}
+	}
+	mRecvSize, ok := options[kvdb.MaxCallRecvMsgSize]
+	if ok {
+		maxCallRecvMsgSize, err = strconv.Atoi(mRecvSize)
+		if err != nil {
+			maxCallRecvMsgSize = 0
+		}
+	}
+
 	cfg := e.Config{
 		Endpoints:            machines,
 		Username:             username,
@@ -139,7 +157,8 @@ func New(
 		TLS:                  tlsCfg,
 		DialKeepAliveTime:    defaultKeepAliveTime,
 		DialKeepAliveTimeout: defaultKeepAliveTimeout,
-
+		MaxCallSendMsgSize:   maxCallSendMsgSize,
+		MaxCallRecvMsgSize:   maxCallRecvMsgSize,
 		// The time required for a request to fail - 30 sec
 		//HeaderTimeoutPerRequest: time.Duration(10) * time.Second,
 	}
